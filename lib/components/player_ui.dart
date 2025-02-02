@@ -184,6 +184,8 @@ class _PlayerUIState extends State<PlayerUI> with SingleTickerProviderStateMixin
         ],
       ),
 
+      //test
+
       //bottom player UI
       bottomNavigationBar: AnimatedBuilder(
         animation: _borderAnimationController,
