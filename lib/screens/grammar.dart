@@ -23,6 +23,7 @@ class _GrammarState extends State<Grammar> {
 
   @override
   void initState() {
+    super.initState();
     isLessonCompleted = stoage.read('grammar_${widget.lessonNumber}_lesson') ?? false;
     isVocabCompleted = stoage.read('grammar_${widget.lessonNumber}_vocab') ?? false;
 
@@ -31,9 +32,9 @@ class _GrammarState extends State<Grammar> {
         setState(() {
           isVocabCompleted = true;
         });
-        completeLesson();
         String keyName = 'grammar_${widget.lessonNumber}_vocab';
         stoage.write(keyName, true);
+        completeLesson();
       }
     });
 
@@ -42,19 +43,18 @@ class _GrammarState extends State<Grammar> {
         setState(() {
           isLessonCompleted = true;
         });
-        completeLesson();
         String keyName = 'grammar_${widget.lessonNumber}_lesson';
         stoage.write(keyName, true);
+        completeLesson();
       }
     });
-
-    super.initState();
   }
 
-  completeLesson() {
-    // if (isLessonCompleted && isVocabCompleted) {
-    //   Navigator.pop(context);
-    // }
+  void completeLesson() {
+    if (isLessonCompleted && isVocabCompleted) {
+      String keyName = 'lesson_${widget.lessonNumber}_completed';
+      stoage.write(keyName, true);
+    }
   }
 
   @override

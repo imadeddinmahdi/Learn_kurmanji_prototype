@@ -4,7 +4,9 @@ import 'package:learn_kurmanji_2022/screens/lesson_list.dart';
 import 'package:learn_kurmanji_2022/screens/song_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:floating_bubbles/floating_bubbles.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'dart:math' as math;
+import 'package:flutter/services.dart';
 
 class FirstPage extends StatefulWidget {
   static const String id = 'first_page';
@@ -25,6 +27,7 @@ class _FirstPageState extends State<FirstPage> with SingleTickerProviderStateMix
     Colors.orange.withOpacity(0.05),
     Colors.purple.withOpacity(0.05),
   ];
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -53,8 +56,18 @@ class _FirstPageState extends State<FirstPage> with SingleTickerProviderStateMix
 
   @override
   void dispose() {
+    _audioPlayer.dispose();
     _glowController.dispose();
     super.dispose();
+  }
+
+  Future<void> _playTapSound(String soundFile) async {
+    try {
+      final player = AudioPlayer();
+      await player.play(AssetSource('sounds/card_tap_1.mp3')); // Use direct path
+    } catch (e) {
+      print('Error playing sound: $e');
+    }
   }
 
   @override
@@ -101,7 +114,9 @@ class _FirstPageState extends State<FirstPage> with SingleTickerProviderStateMix
                     child: RoundedButtonTileImage(
                       imageAsset: 'assets/images/song-button-three.jpg',
                       height: 200,
-                      onTap: () {
+                      onTap: () async {
+                        HapticFeedback.mediumImpact();
+                        await _playTapSound('sounds/card_tap_1.mp3');
                         Navigator.pushNamed(context, SongList.id);
                       },
                       text: 'گۆرانی',
@@ -122,6 +137,7 @@ class _FirstPageState extends State<FirstPage> with SingleTickerProviderStateMix
                     imageAsset: 'assets/images/note-icon.jpg',
                     height: 105,
                     onTap: () {
+                      HapticFeedback.mediumImpact();
                       print('lessons pressed');
                       Navigator.pushNamed(context, LessonsList.id);
                     },

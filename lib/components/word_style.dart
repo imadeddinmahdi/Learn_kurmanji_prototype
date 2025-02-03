@@ -29,15 +29,9 @@ class NewWord extends StatelessWidget {
         textAlign: TextAlign.right,
         text: TextSpan(
           children: [
-            TextSpan(
-                text: text1,
-                style: const TextStyle(
-                    color: newWordColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: newWordFontSize)),
+            TextSpan(text: text1, style: const TextStyle(color: newWordColor, fontWeight: FontWeight.bold, fontSize: newWordFontSize)),
             const TextSpan(text: '    '),
-            TextSpan(
-                text: text2, style: const TextStyle(color: textColor, fontSize: 18)),
+            TextSpan(text: text2, style: const TextStyle(color: textColor, fontSize: 18)),
           ],
         ),
       ),
@@ -102,8 +96,7 @@ Widget topicText(String text) {
 
 Widget noteText(String text) {
   return Container(
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20), color: noteBackgroundColor),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: noteBackgroundColor),
     margin: const EdgeInsets.only(bottom: 10, top: 20),
     padding: const EdgeInsets.all(10),
     child: Text(
@@ -129,18 +122,7 @@ Widget noteText(String text) {
 // }
 
 class KurmanjiExample extends StatelessWidget {
-  KurmanjiExample(
-      {this.text1,
-      this.text2,
-      this.text3,
-      this.text4,
-      this.text5,
-      this.color1,
-      this.color2,
-      this.color3,
-      this.color4,
-      this.color5,
-      this.fontWeight});
+  KurmanjiExample({this.text1, this.text2, this.text3, this.text4, this.text5, this.color1, this.color2, this.color3, this.color4, this.color5, this.fontWeight});
   String? text1;
   String? text2;
   String? text3;
@@ -162,8 +144,7 @@ class KurmanjiExample extends StatelessWidget {
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.right,
         text: TextSpan(
-          style: fontStyle(
-              fontSize: textSize, color: textColor, fontWeight: fontWeight),
+          style: fontStyle(fontSize: textSize, color: textColor, fontWeight: fontWeight),
           children: [
             TextSpan(text: text1, style: TextStyle(color: color1)),
             TextSpan(text: text2, style: TextStyle(color: color2)),
@@ -178,17 +159,7 @@ class KurmanjiExample extends StatelessWidget {
 }
 
 class SoraniExample extends StatelessWidget {
-  SoraniExample(
-      {this.text1,
-      this.text2,
-      this.text3,
-      this.text4,
-      this.text5,
-      this.color1,
-      this.color2,
-      this.color3,
-      this.color4,
-      this.color5});
+  SoraniExample({this.text1, this.text2, this.text3, this.text4, this.text5, this.color1, this.color2, this.color3, this.color4, this.color5});
   String? text1;
   String? text2;
   String? text3;
@@ -242,10 +213,7 @@ Widget table({required text1, required String text2}) {
         TableRow(children: [
           Text(
             text1,
-            style: fontStyle(
-                fontSize: textSize,
-                color: const Color(0xffCEFF7E),
-                fontWeight: FontWeight.bold),
+            style: fontStyle(fontSize: textSize, color: const Color(0xffCEFF7E), fontWeight: FontWeight.bold),
             textAlign: TextAlign.end,
             textScaleFactor: 1.0,
           ),
@@ -302,3 +270,65 @@ Widget vocab({required text1, required String text2}) {
 }
 
 //todo: hint below lyric text (package)
+
+class VocabCard extends StatelessWidget {
+  final String kurmanji;
+  final String kurdish;
+  final String english;
+
+  const VocabCard({
+    required this.kurmanji,
+    required this.kurdish,
+    required this.english,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            kurmanji,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            kurdish,
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            english,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[600],
+              fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -104,16 +104,18 @@ class SongCard extends StatefulWidget {
   final String image;
   final String title;
   final String subtitle;
-  final VoidCallback onTap;
   final bool isDragging;
+  final VoidCallback onTap;
+  final int index;
 
   const SongCard({
     Key? key,
     required this.image,
-    required this.onTap,
-    required this.subtitle,
     required this.title,
-    this.isDragging = false,
+    required this.subtitle,
+    required this.isDragging,
+    required this.onTap,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -121,171 +123,100 @@ class SongCard extends StatefulWidget {
 }
 
 class _SongCardState extends State<SongCard> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _rippleAnimation;
-  late Animation<Color?> _colorAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
-
-    // More dramatic scale animation
-    _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.85).chain(CurveTween(curve: Curves.easeOut)),
-        weight: 30,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 0.85, end: 1.1).chain(CurveTween(curve: Curves.easeIn)),
-        weight: 30,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.1, end: 1.0).chain(CurveTween(curve: Curves.bounceOut)),
-        weight: 40,
-      ),
-    ]).animate(_controller);
-
-    // Bright flash animation
-    _colorAnimation = ColorTween(
-      begin: Colors.transparent,
-      end: Colors.white.withOpacity(0.6),
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
-      ),
-    );
-
-    // Ripple animation
-    _rippleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.2, 0.7, curve: Curves.easeOut),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _controller.reset();
-  }
-
-  Future<void> _handleTap() async {
-    await _controller.forward(from: 0.0);
-    await _controller.reverse();
-  }
+  bool _isHolding = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
-      onTapUp: (_) => _controller.reverse(),
-      onTapCancel: () => _controller.reverse(),
       onTap: widget.onTap,
-      child: AnimatedBuilder(
-        animation: Listenable.merge([_controller, _rippleAnimation]),
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _scaleAnimation.value,
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(
-                border: widget.isDragging ? Border.all(color: Colors.yellow, width: 2.0) : null,
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          border: (_isHolding || widget.isDragging) ? Border.all(color: Colors.yellow, width: 2.0) : null,
+          borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: Container(
+            color: const Color(0xff595959),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: AnimatedSongImage(image: widget.image),
                   ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  // Base card
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Container(
-                      color: const Color(0xff595959),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 120,
-                            height: 120,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: AnimatedSongImage(image: widget.image),
-                            ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 15, top: 10),
+                    height: 120,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.title,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.only(left: 15, top: 10),
-                              height: 120,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    widget.title,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    widget.subtitle,
-                                    style: const TextStyle(fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          widget.subtitle,
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Drag handle at the end
+                ReorderableDragStartListener(
+                  index: widget.index,
+                  child: GestureDetector(
+                    onLongPressStart: (_) {
+                      setState(() {
+                        _isHolding = true;
+                      });
+                    },
+                    onLongPressEnd: (_) {
+                      setState(() {
+                        _isHolding = false;
+                      });
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff595959),
+                        borderRadius: const BorderRadius.horizontal(right: Radius.circular(25)),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.drag_handle,
+                            color: Colors.grey.shade400,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  // Flash overlay
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: _colorAnimation.value,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    ),
-                  ),
-                  // Ripple effect
-                  if (_rippleAnimation.value > 0)
-                    Positioned.fill(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: CustomPaint(
-                          painter: RipplePainter(
-                            color: Colors.white.withOpacity(0.3),
-                            animationValue: _rippleAnimation.value,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

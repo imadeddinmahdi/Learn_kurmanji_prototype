@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:learn_kurmanji_2022/components/card.dart';
 import 'package:learn_kurmanji_2022/components/player_ui.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 class SongStateManager {
   static final SongStateManager _instance = SongStateManager._internal();
@@ -158,6 +160,7 @@ class _SongListState extends State<SongList> {
               : ReorderableListView.builder(
                   padding: const EdgeInsets.all(10),
                   itemCount: songs!.length,
+                  buildDefaultDragHandles: false,
                   onReorder: (oldIndex, newIndex) {
                     setState(() {
                       if (newIndex > oldIndex) {
@@ -174,6 +177,20 @@ class _SongListState extends State<SongList> {
                       _songManager.saveSongOrder();
                     });
                   },
+                  proxyDecorator: (child, index, animation) {
+                    return Material(
+                      color: Colors.transparent,
+                      child: SongCard(
+                        key: ValueKey(songs![index]['title']),
+                        image: songs![index]['image'],
+                        title: songs![index]['title'],
+                        subtitle: songs![index]['singer'],
+                        isDragging: true,
+                        index: index,
+                        onTap: () {},
+                      ),
+                    );
+                  },
                   itemBuilder: (context, index) {
                     final song = songs![index];
                     return SongCard(
@@ -182,38 +199,22 @@ class _SongListState extends State<SongList> {
                       title: song['title'],
                       subtitle: song['singer'],
                       isDragging: false,
+                      index: index,
                       onTap: () {
+                        HapticFeedback.mediumImpact();
+                        final originalIndex = SongStateManager.songTitle.indexOf(song['title']);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => PlayerUI(
                               singer: song['singer'],
                               songName: song['title'],
-                              selectedCard: song['index'],
+                              selectedCard: originalIndex,
                               song: song['songPath'],
                             ),
                           ),
                         );
                       },
-                    );
-                  },
-                  proxyDecorator: (child, index, animation) {
-                    return AnimatedBuilder(
-                      animation: animation,
-                      builder: (BuildContext context, Widget? child) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: SongCard(
-                            key: ValueKey(songs![index]['title']),
-                            image: songs![index]['image'],
-                            title: songs![index]['title'],
-                            subtitle: songs![index]['singer'],
-                            isDragging: true,
-                            onTap: () {},
-                          ),
-                        );
-                      },
-                      child: child,
                     );
                   },
                 ),
