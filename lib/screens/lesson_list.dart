@@ -3,6 +3,7 @@ import 'package:learn_kurmanji_2022/components/rounded_button_tile.dart';
 import 'package:learn_kurmanji_2022/screens/grammar.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:learn_kurmanji_2022/screens/dictionary.dart';
 
 import '../others/utils.dart';
 
@@ -18,6 +19,16 @@ class LessonsList extends StatefulWidget {
 class _FirstPageState extends State<LessonsList> {
   final _storage = GetStorage();
   final Map<int, bool> _newlyUnlockedLessons = {};
+
+  final List<List<Color>> cardColors = [
+    [Colors.purple[900]!, Colors.purple[700]!],
+    [Colors.indigo[900]!, Colors.indigo[700]!],
+    [Colors.blue[900]!, Colors.blue[700]!],
+    [Colors.teal[900]!, Colors.teal[700]!],
+    [Colors.deepPurple[900]!, Colors.deepPurple[700]!],
+    [Colors.pink[900]!, Colors.pink[700]!],
+    [Colors.green[900]!, Colors.green[700]!],
+  ];
 
   @override
   void initState() {
@@ -49,6 +60,10 @@ class _FirstPageState extends State<LessonsList> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
@@ -104,7 +119,7 @@ class _FirstPageState extends State<LessonsList> {
                   const SizedBox(height: roundedButtonHeight),
                   _buildLessonCard(
                     title: 'سەرەتا',
-                    subtitle: 'دەست پێ بکە لێرەوە',
+                    subtitle: 'کرمانجی یان بادینی؟',
                     icon: Icons.start_outlined,
                     lessonNumber: 0,
                     isLocked: false,
@@ -139,11 +154,13 @@ class _FirstPageState extends State<LessonsList> {
                   ),
                   _buildLessonCard(
                     title: 'کۆتا وانە',
-                    subtitle: 'پێداچوونەوەی گشتی',
+                    subtitle: 'قورسترین وانە؟',
                     icon: Icons.school,
                     lessonNumber: 5,
                     isLocked: !isLessonCompleted(4),
                   ),
+                  const SizedBox(height: 40),
+                  _buildDictionaryCard(),
                   const SizedBox(height: 20),
                 ],
               ),
@@ -161,15 +178,6 @@ class _FirstPageState extends State<LessonsList> {
     required int lessonNumber,
     required bool isLocked,
   }) {
-    final List<List<Color>> cardColors = [
-      [Colors.purple[900]!, Colors.purple[700]!],
-      [Colors.indigo[900]!, Colors.indigo[700]!],
-      [Colors.blue[900]!, Colors.blue[700]!],
-      [Colors.teal[900]!, Colors.teal[700]!],
-      [Colors.deepPurple[900]!, Colors.deepPurple[700]!],
-      [Colors.pink[900]!, Colors.pink[700]!],
-    ];
-
     Widget cardContent = Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -188,20 +196,26 @@ class _FirstPageState extends State<LessonsList> {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              size: 30,
-              color: isLocked ? Colors.grey[400] : Colors.white,
-            ),
+          Icon(
+            lessonNumber == 0
+                ? Icons.play_arrow_outlined
+                : lessonNumber == 1
+                    ? Icons.person_outline
+                    : lessonNumber == 2
+                        ? Icons.directions_run_outlined
+                        : lessonNumber == 3
+                            ? Icons.link_outlined
+                            : lessonNumber == 4
+                                ? Icons.update_outlined
+                                : lessonNumber == 5
+                                    ? Icons.school_outlined
+                                    : Icons.menu_book_outlined,
+            size: 35,
+            color: isLocked ? Colors.grey[400] : Colors.white,
           ),
-          const SizedBox(width: 15),
+          const SizedBox(width: 20),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,6 +242,7 @@ class _FirstPageState extends State<LessonsList> {
           Icon(
             isLocked ? Icons.lock : Icons.arrow_forward_ios,
             color: isLocked ? Colors.grey[600] : Colors.white70,
+            size: 22,
           ),
         ],
       ),
@@ -240,15 +255,25 @@ class _FirstPageState extends State<LessonsList> {
         child: InkWell(
           onTap: isLocked
               ? null
-              : () async {
+              : () {
                   HapticFeedback.mediumImpact();
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Grammar(lessonNumber: lessonNumber),
-                    ),
-                  );
-                  setState(() {});
+                  if (lessonNumber == 6) {
+                    // Dictionary card
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Dictionary(),
+                      ),
+                    );
+                  } else {
+                    // Regular lesson cards
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Grammar(lessonNumber: lessonNumber),
+                      ),
+                    ).then((_) => setState(() {}));
+                  }
                 },
           borderRadius: BorderRadius.circular(15),
           child: _newlyUnlockedLessons[lessonNumber] == true
@@ -279,6 +304,57 @@ class _FirstPageState extends State<LessonsList> {
                   child: cardContent,
                 )
               : cardContent,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDictionaryCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            HapticFeedback.mediumImpact();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Dictionary(),
+              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(15),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: Colors.white30,
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.menu_book_outlined,
+                  size: 28,
+                  color: Colors.white,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'هەموو وشەکان',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

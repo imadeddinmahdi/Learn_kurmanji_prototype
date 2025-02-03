@@ -14,93 +14,74 @@ class Grammar extends StatefulWidget {
 }
 
 class _GrammarState extends State<Grammar> {
-  //scroll controller:
-  final ScrollController vocabScrollController = ScrollController();
   final ScrollController lessonScrollController = ScrollController();
-
   bool isLessonCompleted = false;
-  bool isVocabCompleted = false;
+  double _scrollProgress = 0.0;
 
   @override
   void initState() {
     super.initState();
     isLessonCompleted = stoage.read('grammar_${widget.lessonNumber}_lesson') ?? false;
-    isVocabCompleted = stoage.read('grammar_${widget.lessonNumber}_vocab') ?? false;
-
-    vocabScrollController.addListener(() {
-      if (vocabScrollController.position.maxScrollExtent == vocabScrollController.offset) {
-        setState(() {
-          isVocabCompleted = true;
-        });
-        String keyName = 'grammar_${widget.lessonNumber}_vocab';
-        stoage.write(keyName, true);
-        completeLesson();
-      }
-    });
+    // Initialize scroll progress to 1.0 if lesson is already completed
+    _scrollProgress = isLessonCompleted ? 1.0 : 0.0;
 
     lessonScrollController.addListener(() {
-      if (lessonScrollController.position.maxScrollExtent == lessonScrollController.offset) {
+      if (lessonScrollController.position.maxScrollExtent > 0) {
         setState(() {
-          isLessonCompleted = true;
+          // Only update progress if lesson isn't already completed
+          if (!isLessonCompleted) {
+            _scrollProgress = lessonScrollController.offset / lessonScrollController.position.maxScrollExtent;
+          }
         });
-        String keyName = 'grammar_${widget.lessonNumber}_lesson';
-        stoage.write(keyName, true);
-        completeLesson();
+
+        if (_scrollProgress >= 1.0 && !isLessonCompleted) {
+          setState(() {
+            isLessonCompleted = true;
+            _scrollProgress = 1.0; // Ensure it's exactly 1.0
+          });
+          // Mark both lesson and vocab as completed
+          stoage.write('grammar_${widget.lessonNumber}_lesson', true);
+          stoage.write('grammar_${widget.lessonNumber}_vocab', true);
+          String keyName = 'lesson_${widget.lessonNumber}_completed';
+          stoage.write(keyName, true);
+        }
       }
     });
-  }
-
-  void completeLesson() {
-    if (isLessonCompleted && isVocabCompleted) {
-      String keyName = 'lesson_${widget.lessonNumber}_completed';
-      stoage.write(keyName, true);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        //grey color grey.shade800
-        child: Scaffold(
-          backgroundColor: const Color(0xffF7F7FF),
-          appBar: AppBar(
-            backgroundColor: const Color(0xffF7F7FF),
-            bottom: TabBar(
-              labelStyle: const TextStyle(fontSize: 16),
-              indicatorColor: Colors.black,
-              labelColor: Colors.green,
-              unselectedLabelColor: Colors.grey.shade500,
-              indicator: const UnderlineTabIndicator(borderSide: BorderSide(color: Colors.grey, style: BorderStyle.none)),
-              tabs: [
-                //the tick icon should be on the right side of the text instead of the top:
-                Tab(
-                  text: 'وانە',
-                  icon: isLessonCompleted ? const Icon(Icons.check) : null,
-                ),
-                Tab(
-                  text: 'وشەکان',
-                  icon: isVocabCompleted ? const Icon(Icons.check) : null,
-                ),
-              ],
+    return Scaffold(
+      backgroundColor: const Color(0xffF7F7FF),
+      appBar: AppBar(
+        backgroundColor: const Color(0xffF7F7FF),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black54),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'گەڕانەوە',
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black54,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(2.0),
+          child: LinearProgressIndicator(
+            value: _scrollProgress,
+            backgroundColor: Colors.grey[300],
+            valueColor: AlwaysStoppedAnimation<Color>(
+              isLessonCompleted ? Colors.green : Colors.blue,
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: TabBarView(
-              children: [
-                SingleChildScrollView(
-                  child: lessonNo[widget.lessonNumber],
-                  controller: lessonScrollController,
-                ),
-                SingleChildScrollView(
-                  child: vocabNo[widget.lessonNumber],
-                  controller: vocabScrollController,
-                ),
-              ],
-            ),
-          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: SingleChildScrollView(
+          child: lessonNo[widget.lessonNumber],
+          controller: lessonScrollController,
         ),
       ),
     );
