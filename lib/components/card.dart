@@ -197,9 +197,9 @@ class _SongCardState extends State<SongCard> with SingleTickerProviderStateMixin
                     child: Container(
                       width: 40,
                       height: 120,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff595959),
-                        borderRadius: const BorderRadius.horizontal(right: Radius.circular(25)),
+                      decoration: const BoxDecoration(
+                        color: Color(0xff595959),
+                        borderRadius: BorderRadius.horizontal(right: Radius.circular(25)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

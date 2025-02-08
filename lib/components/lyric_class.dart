@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learn_kurmanji_2022/others/utils.dart';
 
 class KurmanjiLyricText extends StatelessWidget {
   KurmanjiLyricText({this.text1, this.text2, this.text3, this.text4, this.color1, this.color2, this.color3, this.color4});
@@ -15,7 +16,7 @@ class KurmanjiLyricText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: lyricsFontSize, fontWeight: FontWeight.bold),
         children: [
           TextSpan(text: text1, style: TextStyle(color: color1)),
           TextSpan(text: text2, style: TextStyle(color: color2)),
@@ -42,7 +43,7 @@ class SoraniLyricText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: TextStyle(fontSize: 16, color: Colors.grey.shade300),
+        style: TextStyle(fontSize: lyricsFontSize, color: Colors.grey.shade300),
         children: [
           TextSpan(text: text1, style: TextStyle(color: color1)),
           TextSpan(text: text2, style: TextStyle(color: color2)),
@@ -56,13 +57,12 @@ class SoraniLyricText extends StatelessWidget {
 
 Widget lyricSmallText({
   required String text,
-  double fontSize = 15, // Default size is 15
 }) {
   return Padding(
     padding: const EdgeInsets.only(top: 20),
     child: Text(
       text,
-      style: TextStyle(fontSize: fontSize, color: Colors.grey.shade500),
+      style: TextStyle(fontSize: lyricsFontSize - 4, color: Colors.grey.shade500),
     ),
   );
 }

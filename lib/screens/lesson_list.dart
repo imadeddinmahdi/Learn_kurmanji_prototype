@@ -72,17 +72,17 @@ class _FirstPageState extends State<LessonsList> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Reset Progress'),
-                    content: const Text('Are you sure you want to reset all lesson progress?'),
+                    title: const Text('ڕیسێتکردنەوەی وانەکان'),
+                    content: const Text('ئایا دڵنیایت کە ئەتەوێت رێسێتی بکەیتەوە؟'),
                     actions: [
                       TextButton(
-                        child: const Text('Cancel'),
+                        child: const Text('نەخێر'),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       TextButton(
-                        child: const Text('Reset'),
+                        child: const Text('بەڵێ'),
                         onPressed: () {
                           _resetProgress();
                           Navigator.of(context).pop();

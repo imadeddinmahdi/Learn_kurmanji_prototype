@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_kurmanji_2022/components/player_class.dart';
 import 'package:learn_kurmanji_2022/components/lyrics.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:learn_kurmanji_2022/others/utils.dart';
 
 class PlayerUI extends StatefulWidget {
   static const String id = 'player_ui';
@@ -18,10 +19,6 @@ class PlayerUI extends StatefulWidget {
 
 class _PlayerUIState extends State<PlayerUI> with SingleTickerProviderStateMixin {
   bool _isLoading = true;
-  double _lyricsFontSize = 15.0; // Default font size
-  static const double _minFontSize = 12.0; // Minimum readable size
-  static const double _maxFontSize = 24.0; // Maximum reasonable size
-  static const double _fontSizeStep = 2.0; // Size change per button press
   late AnimationController _borderAnimationController;
   late Animation<Color?> _borderColorAnimation;
   final List<Color> rainbowColors = [
@@ -142,42 +139,57 @@ class _PlayerUIState extends State<PlayerUI> with SingleTickerProviderStateMixin
           SingleChildScrollView(
             child: Column(
               children: [
-                // Existing player controls
-
-                // Add font size controls
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                const SizedBox(height: 90),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade900,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.grey.shade800,
+                    ),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
                         icon: const Icon(Icons.remove_circle_outline),
                         onPressed: () {
                           setState(() {
-                            if (_lyricsFontSize > _minFontSize) {
-                              _lyricsFontSize -= _fontSizeStep;
+                            if (lyricsFontSize > minFontSize) {
+                              lyricsFontSize -= fontSizeStep;
                             }
                           });
                         },
-                        color: _lyricsFontSize > _minFontSize ? Colors.white : Colors.grey,
+                        color: lyricsFontSize > minFontSize ? Colors.white : Colors.grey,
                       ),
                       IconButton(
                         icon: const Icon(Icons.add_circle_outline),
                         onPressed: () {
                           setState(() {
-                            if (_lyricsFontSize < _maxFontSize) {
-                              _lyricsFontSize += _fontSizeStep;
+                            if (lyricsFontSize < maxFontSize) {
+                              lyricsFontSize += fontSizeStep;
                             }
                           });
                         },
-                        color: _lyricsFontSize < _maxFontSize ? Colors.white : Colors.grey,
+                        color: lyricsFontSize < maxFontSize ? Colors.white : Colors.grey,
                       ),
+                      const SizedBox(width: 6),
+                      const Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Text(
+                          'قەبارەی نوسین: ',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
                     ],
                   ),
                 ),
-
+                const SizedBox(height: 50),
                 // Pass the font size to songLyrics
-                songLyrics[widget.selectedCard],
+                getLyrics(widget.selectedCard),
               ],
             ),
           ),
