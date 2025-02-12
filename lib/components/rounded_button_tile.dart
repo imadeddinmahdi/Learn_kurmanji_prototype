@@ -6,12 +6,12 @@ class RoundedButtonTile extends StatelessWidget {
   VoidCallback onTap;
   double height;
   bool isLocked;
-  RoundedButtonTile({
+  RoundedButtonTile({Key? key, 
     required this.text,
     required this.onTap,
     required this.height,
     this.isLocked = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +60,10 @@ class RoundedButtonTileImage extends StatelessWidget {
   double height;
   String imageAsset;
   RoundedButtonTileImage(
-      {required this.text,
+      {Key? key, required this.text,
       required this.onTap,
       required this.height,
-      required this.imageAsset});
+      required this.imageAsset}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

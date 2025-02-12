@@ -399,32 +399,32 @@ final lesson3Vocab = Column(
     const SizedBox(height: 40),
     paragraphText('لەم وانەیەدا فێری ئیزافە دەبین لە زمانی کرمانجیدا. ئیزافە بۆ دروستکردنی پەیوەندی نێوان وشەکان بەکاردێت.'),
     const SizedBox(height: 20),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'mal',
       kurdish: 'ماڵ',
       english: 'house',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'mala min',
       kurdish: 'ماڵی من',
       english: 'my house',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'kitêb',
       kurdish: 'کتێب',
       english: 'book',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'kitêba te',
       kurdish: 'کتێبی تۆ',
       english: 'your book',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'nav',
       kurdish: 'ناو',
       english: 'name',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'navê wî',
       kurdish: 'ناوی ئەو',
       english: 'his name',
@@ -439,27 +439,27 @@ final lesson4Vocab = Column(
     const SizedBox(height: 40),
     paragraphText('لەم وانەیەدا فێری کاتی داهاتوو دەبین لە زمانی کرمانجیدا. چۆن باسی کارێک بکەین کە لە داهاتوودا ئەنجامی دەدەین.'),
     const SizedBox(height: 20),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'dê',
       kurdish: 'دە',
       english: 'will (future marker)',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'ez dê bêm',
       kurdish: 'من دێم',
       english: 'I will come',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'tu dê biçî',
       kurdish: 'تۆ دەڕۆیت',
       english: 'you will go',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'ew dê bixwe',
       kurdish: 'ئەو دەخوات',
       english: 'he/she will eat',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'em dê bikin',
       kurdish: 'ئێمە دەکەین',
       english: 'we will do',
@@ -474,27 +474,27 @@ final lesson5Vocab = Column(
     const SizedBox(height: 40),
     paragraphText('لەم وانەیەدا فێری چەند وشەیەکی گرنگ دەبین کە پەیوەندییان بە کاتەوە هەیە.'),
     const SizedBox(height: 20),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'îro',
       kurdish: 'ئەمڕۆ',
       english: 'today',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'sibe',
       kurdish: 'سبەی',
       english: 'tomorrow',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'duhî',
       kurdish: 'دوێنێ',
       english: 'yesterday',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'niha',
       kurdish: 'ئێستا',
       english: 'now',
     ),
-    VocabCard(
+    const VocabCard(
       kurmanji: 'paşê',
       kurdish: 'دواتر',
       english: 'later',

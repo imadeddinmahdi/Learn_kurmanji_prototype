@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:learn_kurmanji_2022/components/rounded_button_tile.dart';
 import 'package:learn_kurmanji_2022/screens/grammar.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,6 +10,8 @@ const roundedButtonHeight = 85.0;
 
 class LessonsList extends StatefulWidget {
   static const String id = 'lessons_list';
+
+  const LessonsList({Key? key}) : super(key: key);
 
   @override
   State<LessonsList> createState() => _FirstPageState();
@@ -262,7 +263,7 @@ class _FirstPageState extends State<LessonsList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Dictionary(),
+                        builder: (context) => const Dictionary(),
                       ),
                     );
                   } else {
@@ -320,7 +321,7 @@ class _FirstPageState extends State<LessonsList> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Dictionary(),
+                builder: (context) => const Dictionary(),
               ),
             );
           },
@@ -335,7 +336,7 @@ class _FirstPageState extends State<LessonsList> {
                 width: 1,
               ),
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
@@ -343,7 +344,7 @@ class _FirstPageState extends State<LessonsList> {
                   size: 28,
                   color: Colors.white,
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   'هەموو وشەکان',
                   style: TextStyle(

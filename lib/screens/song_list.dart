@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:learn_kurmanji_2022/components/card.dart';
 import 'package:learn_kurmanji_2022/components/player_ui.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 class SongStateManager {
@@ -108,6 +107,8 @@ class SongStateManager {
 
 class SongList extends StatefulWidget {
   static const String id = 'song_list';
+
+  const SongList({Key? key}) : super(key: key);
 
   @override
   State<SongList> createState() => _SongListState();

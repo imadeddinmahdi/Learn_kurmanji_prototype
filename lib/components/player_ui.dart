@@ -11,7 +11,7 @@ class PlayerUI extends StatefulWidget {
   final int selectedCard;
   final String singer;
   final String songName;
-  const PlayerUI({required this.selectedCard, required this.song, required this.songName, required this.singer});
+  const PlayerUI({Key? key, required this.selectedCard, required this.song, required this.songName, required this.singer}) : super(key: key);
 
   @override
   State<PlayerUI> createState() => _PlayerUIState();

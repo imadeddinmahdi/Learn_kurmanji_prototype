@@ -12,6 +12,8 @@ import 'package:learn_kurmanji_2022/components/rounded_button_tile.dart';
 class FirstPage extends StatefulWidget {
   static const String id = 'first_page';
 
+  const FirstPage({Key? key}) : super(key: key);
+
   @override
   State<FirstPage> createState() => _FirstPageState();
 }

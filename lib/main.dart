@@ -23,17 +23,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: FirstPage(),
+      home: const FirstPage(),
       initialRoute: FirstPage.id,
       routes: {
-        FirstPage.id: (context) => FirstPage(),
-        SongList.id: (context) => SongList(),
+        FirstPage.id: (context) => const FirstPage(),
+        SongList.id: (context) => const SongList(),
         PlayerUI.id: (context) => const PlayerUI(selectedCard: 1, song: 'he', singer: 'bla', songName: 'bla'),
-        Vocab.id: (context) => Vocab(),
-        Grammar.id: (context) => Grammar(
+        Vocab.id: (context) => const Vocab(),
+        Grammar.id: (context) => const Grammar(
               lessonNumber: 0,
             ),
-        LessonsList.id: (context) => LessonsList(),
+        LessonsList.id: (context) => const LessonsList(),
       },
     );
   }

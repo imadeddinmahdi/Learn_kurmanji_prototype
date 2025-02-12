@@ -12,7 +12,7 @@ class DictionaryStyles {
     color: Color(0xFF7E6B9B),
   );
 
-  static TextStyle englishStyle = TextStyle(
+  static TextStyle englishStyle = const TextStyle(
     fontSize: 16,
     color: Colors.white60,
     fontStyle: FontStyle.italic,

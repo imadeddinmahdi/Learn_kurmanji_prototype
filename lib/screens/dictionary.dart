@@ -9,6 +9,8 @@ import 'package:pedantic/pedantic.dart';
 class Dictionary extends StatefulWidget {
   static const String id = 'dictionary';
 
+  const Dictionary({Key? key}) : super(key: key);
+
   @override
   State<Dictionary> createState() => _DictionaryState();
 }
@@ -18,7 +20,7 @@ class _DictionaryState extends State<Dictionary> {
   Set<String> deletedWords = {};
   bool isLoading = true;
   Set<String> revealedWords = {};
-  int _selectedTabIndex = 0;
+  final int _selectedTabIndex = 0;
   Set<String> favoriteWords = {};
   List<DictionaryWord> allWords = [];
 
@@ -163,18 +165,18 @@ class _DictionaryState extends State<Dictionary> {
               onPressed: restoreDefaults,
             ),
           ],
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
-              const Tab(text: 'هەموو'),
+              Tab(text: 'هەموو'),
               Tab(
-                child: const Icon(
+                child: Icon(
                   Icons.favorite,
                   size: 20,
                 ),
                 height: 50,
               ),
               Tab(
-                child: const Icon(
+                child: Icon(
                   Icons.delete,
                   size: 20,
                 ),
@@ -401,8 +403,8 @@ class _DictionaryState extends State<Dictionary> {
                                                         revealedWords.add('${word.kurmanji.trim()}_${word.kurdish.trim()}');
                                                       });
                                                     },
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                                    child: const Padding(
+                                                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                                       child: Icon(
                                                         Icons.visibility_off,
                                                         color: Color.fromARGB(255, 153, 145, 165),
@@ -787,11 +789,11 @@ class _DictionaryState extends State<Dictionary> {
                                       });
                                     }
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8),
                                     child: Icon(
                                       Icons.visibility_off,
-                                      color: const Color(0xFF7E6B9B),
+                                      color: Color(0xFF7E6B9B),
                                       size: 20,
                                     ),
                                   ),

@@ -33,12 +33,12 @@ class _AnimatedSongImageState extends State<AnimatedSongImage> with SingleTicker
     if (_useSlideAnimation) {
       // Random slide direction
       final bool horizontal = Random().nextBool();
-      final double start = -0.05; // Increased movement range
-      final double end = 0.05;
+      const double start = -0.05; // Increased movement range
+      const double end = 0.05;
 
       _slideAnimation = Tween<Offset>(
-        begin: horizontal ? Offset(start, 0) : Offset(0, start),
-        end: horizontal ? Offset(end, 0) : Offset(0, end),
+        begin: horizontal ? const Offset(start, 0) : const Offset(0, start),
+        end: horizontal ? const Offset(end, 0) : const Offset(0, end),
       ).animate(CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
@@ -69,7 +69,7 @@ class _AnimatedSongImageState extends State<AnimatedSongImage> with SingleTicker
         if (_useSlideAnimation) {
           return SlideTransition(
             position: _slideAnimation,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: FittedBox(
@@ -81,7 +81,7 @@ class _AnimatedSongImageState extends State<AnimatedSongImage> with SingleTicker
         } else {
           return Transform.scale(
             scale: _scaleAnimation.value,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: FittedBox(

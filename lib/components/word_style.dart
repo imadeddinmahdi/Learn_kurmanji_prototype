@@ -13,10 +13,10 @@ const noteTextColor = Colors.black54;
 const newWordFontSize = 18.0;
 
 class NewWord extends StatelessWidget {
-  NewWord({
+  NewWord({Key? key, 
     this.text1,
     this.text2,
-  });
+  }) : super(key: key);
   String? text1;
   String? text2;
 
@@ -122,7 +122,7 @@ Widget noteText(String text) {
 // }
 
 class KurmanjiExample extends StatelessWidget {
-  KurmanjiExample({this.text1, this.text2, this.text3, this.text4, this.text5, this.color1, this.color2, this.color3, this.color4, this.color5, this.fontWeight});
+  KurmanjiExample({Key? key, this.text1, this.text2, this.text3, this.text4, this.text5, this.color1, this.color2, this.color3, this.color4, this.color5, this.fontWeight}) : super(key: key);
   String? text1;
   String? text2;
   String? text3;
@@ -159,7 +159,7 @@ class KurmanjiExample extends StatelessWidget {
 }
 
 class SoraniExample extends StatelessWidget {
-  SoraniExample({this.text1, this.text2, this.text3, this.text4, this.text5, this.color1, this.color2, this.color3, this.color4, this.color5});
+  SoraniExample({Key? key, this.text1, this.text2, this.text3, this.text4, this.text5, this.color1, this.color2, this.color3, this.color4, this.color5}) : super(key: key);
   String? text1;
   String? text2;
   String? text3;
@@ -276,11 +276,11 @@ class VocabCard extends StatelessWidget {
   final String kurdish;
   final String english;
 
-  const VocabCard({
+  const VocabCard({Key? key, 
     required this.kurmanji,
     required this.kurdish,
     required this.english,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

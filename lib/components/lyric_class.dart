@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learn_kurmanji_2022/others/utils.dart';
 
 class KurmanjiLyricText extends StatelessWidget {
-  KurmanjiLyricText({this.text1, this.text2, this.text3, this.text4, this.color1, this.color2, this.color3, this.color4});
+  KurmanjiLyricText({Key? key, this.text1, this.text2, this.text3, this.text4, this.color1, this.color2, this.color3, this.color4}) : super(key: key);
   String? text1;
   String? text2;
   String? text3;
@@ -29,7 +29,7 @@ class KurmanjiLyricText extends StatelessWidget {
 }
 
 class SoraniLyricText extends StatelessWidget {
-  SoraniLyricText({this.text1, this.text2, this.text3, this.text4, this.color1, this.color2, this.color3, this.color4});
+  SoraniLyricText({Key? key, this.text1, this.text2, this.text3, this.text4, this.color1, this.color2, this.color3, this.color4}) : super(key: key);
   String? text1;
   String? text2;
   String? text3;

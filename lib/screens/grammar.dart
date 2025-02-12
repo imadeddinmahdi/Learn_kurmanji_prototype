@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:learn_kurmanji_2022/components/lessons_content.dart';
-import 'package:learn_kurmanji_2022/components/vocab_content.dart';
 import 'package:learn_kurmanji_2022/main.dart';
 
 class Grammar extends StatefulWidget {
   static const String id = 'grammar';
 
   final int lessonNumber;
-  Grammar({required this.lessonNumber});
+  const Grammar({Key? key, required this.lessonNumber}) : super(key: key);
 
   @override
   State<Grammar> createState() => _GrammarState();
